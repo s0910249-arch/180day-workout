@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>180天精壯計畫 · 訓練課表</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+TC:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0c0f; --surface: #12151a; --surface2: #1a1e25; --surface3: #222730;
+  --accent: #00e5a0; --accent2: #00c7ff; --accent3: #ff6b35;
+  --yellow: #ffd23f; --text: #e8ecf1; --muted: #6b7a8d; --border: #2a3040;
+  --push: #ff6b6b; --pull: #6bafff; --legs: #ffb86b; --cardio: #6bffb8;
+  --core: #c56bff; --rest: #4a5568;
+  --phase1: #ff6b35; --phase2: #00c7ff; --phase3: #00e5a0;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'Noto Sans TC', sans-serif; min-height: 100vh; padding: 20px; line-height: 1.6; }
+.container { max-width: 960px; margin: 0 auto; }
+
+/* HEADER */
+.header { text-align: center; padding: 44px 0 28px; border-bottom: 1px solid var(--border); margin-bottom: 30px; }
+.header h1 { font-family: 'Bebas Neue', sans-serif; font-size: 3.2rem; letter-spacing: 5px; background: linear-gradient(135deg, var(--phase1), var(--accent2), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
+.header .sub { color: var(--muted); font-size: 0.82rem; letter-spacing: 2px; }
+.header .profile { display: flex; justify-content: center; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
+.header .profile .tag { background: var(--surface2); padding: 6px 14px; border-radius: 20px; font-size: 0.78rem; color: var(--accent); border: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; }
+.header .profile .tag.warn { color: var(--phase1); }
+.header .profile .tag.info { color: var(--accent2); }
+
+/* ROADMAP */
+.roadmap { margin-bottom: 36px; background: var(--surface); border-radius: 16px; border: 1px solid var(--border); padding: 24px 28px; }
+.roadmap-title { font-size: 0.72rem; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; font-weight: 600; }
+.roadmap-track { display: flex; border-radius: 8px; overflow: hidden; margin-bottom: 18px; height: 10px; }
+.roadmap-seg { height: 10px; flex: 1; }
+.seg1 { background: linear-gradient(90deg, var(--phase1), #ff8c55); }
+.seg2 { background: linear-gradient(90deg, var(--accent2), #00a8e0); }
+.seg3 { background: linear-gradient(90deg, var(--accent), #00b87a); }
+.phase-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.phase-card { background: var(--surface2); border-radius: 12px; padding: 16px; border: 1px solid var(--border); position: relative; overflow: hidden; }
+.phase-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.phase-card.p1::before { background: var(--phase1); }
+.phase-card.p2::before { background: var(--accent2); }
+.phase-card.p3::before { background: var(--accent); }
+.phase-label { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 2px; margin-bottom: 4px; }
+.p1 .phase-label { color: var(--phase1); }
+.p2 .phase-label { color: var(--accent2); }
+.p3 .phase-label { color: var(--accent); }
+.phase-days { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--muted); margin-bottom: 10px; }
+.phase-detail { font-size: 0.73rem; color: var(--text); line-height: 1.7; }
+.phase-detail span { display: block; color: var(--muted); font-size: 0.68rem; margin-top: 2px; }
+.phase-target { margin-top: 10px; padding: 6px 10px; border-radius: 6px; font-size: 0.72rem; font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+.p1 .phase-target { background: rgba(255,107,53,0.12); color: var(--phase1); }
+.p2 .phase-target { background: rgba(0,199,255,0.12); color: var(--accent2); }
+.p3 .phase-target { background: rgba(0,229,160,0.12); color: var(--accent); }
+
+/* MILESTONES */
+.milestones { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 36px; }
+.milestone-item { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 6px; text-align: center; }
+.milestone-day { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--muted); margin-bottom: 4px; }
+.milestone-kg { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--accent); }
+.milestone-label { font-size: 0.6rem; color: var(--muted); margin-top: 2px; }
+
+/* FASTING */
+.fasting-box { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px 24px; margin-bottom: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center; }
+.fasting-left h3 { font-size: 0.85rem; color: var(--yellow); margin-bottom: 10px; letter-spacing: 1px; }
+.fasting-timeline { display: flex; align-items: center; height: 32px; border-radius: 8px; overflow: hidden; margin-bottom: 10px; }
+.ft-fast { background: rgba(255,107,53,0.25); border: 1px solid rgba(255,107,53,0.3); border-right: none; height: 100%; flex: 16; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-family: 'JetBrains Mono', monospace; color: var(--phase1); font-weight: 600; }
+.ft-eat { background: rgba(0,229,160,0.15); border: 1px solid rgba(0,229,160,0.3); height: 100%; flex: 8; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-family: 'JetBrains Mono', monospace; color: var(--accent); font-weight: 600; }
+.fasting-note { font-size: 0.72rem; color: var(--muted); line-height: 1.7; }
+.fasting-right { display: flex; flex-direction: column; gap: 8px; }
+.fasting-rule { background: var(--surface2); border-radius: 8px; padding: 8px 12px; font-size: 0.72rem; color: var(--text); border-left: 3px solid var(--yellow); }
+.fasting-rule strong { color: var(--yellow); display: block; margin-bottom: 2px; font-size: 0.7rem; }
+
+/* PHASE MOD BAR */
+.phase-mod-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 30px; }
+.phase-mod { border-radius: 10px; padding: 14px 16px; border: 1px solid var(--border); }
+.phase-mod.p1 { border-color: rgba(255,107,53,0.3); background: rgba(255,107,53,0.05); }
+.phase-mod.p2 { border-color: rgba(0,199,255,0.3); background: rgba(0,199,255,0.05); }
+.phase-mod.p3 { border-color: rgba(0,229,160,0.3); background: rgba(0,229,160,0.05); }
+.phase-mod-title { font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+.p1 .phase-mod-title { color: var(--phase1); }
+.p2 .phase-mod-title { color: var(--accent2); }
+.p3 .phase-mod-title { color: var(--accent); }
+.phase-mod-row { display: flex; justify-content: space-between; font-size: 0.7rem; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.phase-mod-row:last-child { border-bottom: none; }
+.phase-mod-key { color: var(--muted); }
+.phase-mod-val { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--text); }
+
+/* OVERVIEW */
+.overview { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 36px; }
+.ov-day { background: var(--surface); border-radius: 10px; padding: 12px 8px; text-align: center; border: 1px solid var(--border); transition: transform 0.2s; }
+.ov-day:hover { transform: translateY(-2px); }
+.ov-day .day-label { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 1px; margin-bottom: 4px; }
+.ov-day .day-type { font-size: 0.65rem; padding: 3px 6px; border-radius: 4px; display: inline-block; font-weight: 600; }
+.ov-day .day-focus { font-size: 0.7rem; color: var(--muted); margin-top: 4px; }
+.type-push { background: rgba(255,107,107,0.15); color: var(--push); }
+.type-pull { background: rgba(107,175,255,0.15); color: var(--pull); }
+.type-legs { background: rgba(255,184,107,0.15); color: var(--legs); }
+.type-cardio { background: rgba(107,255,184,0.15); color: var(--cardio); }
+.type-rest { background: rgba(74,85,104,0.15); color: var(--rest); }
+
+/* DAY CARD */
+.day-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 20px; overflow: hidden; transition: box-shadow 0.3s; }
+.day-card:hover { box-shadow: 0 4px 20px rgba(0,229,160,0.06); }
+.day-header { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); cursor: pointer; user-select: none; }
+.day-header .left { display: flex; align-items: center; gap: 12px; }
+.day-header .day-num { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; line-height: 1; }
+.day-header .day-info h3 { font-size: 0.95rem; font-weight: 600; }
+.day-header .day-info .meta { font-size: 0.72rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+.day-header .toggle { font-size: 1.2rem; color: var(--muted); transition: transform 0.3s; }
+.day-card.open .toggle { transform: rotate(180deg); }
+.day-body { display: none; }
+.day-card.open .day-body { display: block; }
+
+/* PHASE BADGES */
+.phase-badges { display: flex; gap: 8px; padding: 10px 20px; background: var(--surface2); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.pbadge { font-size: 0.62rem; font-family: 'JetBrains Mono', monospace; font-weight: 600; padding: 3px 8px; border-radius: 4px; }
+.pbadge.p1 { background: rgba(255,107,53,0.15); color: var(--phase1); }
+.pbadge.p2 { background: rgba(0,199,255,0.15); color: var(--accent2); }
+.pbadge.p3 { background: rgba(0,229,160,0.15); color: var(--accent); }
+.pbadge-label { font-size: 0.62rem; color: var(--muted); align-self: center; }
+
+/* SECTION */
+.section-label { padding: 10px 20px 6px; font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+
+/* EXERCISE TABLE */
+.ex-table { width: 100%; border-collapse: collapse; }
+.ex-table th { font-size: 0.65rem; color: var(--muted); text-align: left; padding: 6px 20px; font-weight: 500; letter-spacing: 1px; border-bottom: 1px solid var(--border); }
+.ex-table td { padding: 10px 20px; font-size: 0.85rem; border-bottom: 1px solid rgba(42,48,64,0.5); vertical-align: middle; }
+.ex-table tr:last-child td { border-bottom: none; }
+.ex-table .ex-name { font-weight: 600; }
+.ex-table .garmin-name { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--accent2); display: block; margin-top: 2px; }
+.ex-table .target { font-size: 0.7rem; color: var(--muted); }
+.ex-table .sets-reps { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 600; }
+.ex-table .rest-time { font-size: 0.72rem; color: var(--yellow); }
+.ex-table .note { font-size: 0.7rem; color: var(--muted); font-style: italic; }
+
+/* YouTube Link */
+.yt-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.62rem;
+  color: #ff5050;
+  text-decoration: none;
+  margin-top: 5px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(255,80,80,0.08);
+  border: 1px solid rgba(255,80,80,0.25);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.yt-link:hover { background: rgba(255,80,80,0.2); color: #ff7070; }
+
+/* Phase cells */
+.phase-cells { display: flex; flex-direction: column; gap: 2px; }
+.phase-cell { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+.pc1 { background: rgba(255,107,53,0.12); color: var(--phase1); }
+.pc2 { background: rgba(0,199,255,0.12); color: var(--accent2); }
+.pc3 { background: rgba(0,229,160,0.12); color: var(--accent); }
+
+/* CARDIO BOX */
+.cardio-box { margin: 0 20px 16px; padding: 14px 16px; background: var(--surface2); border-radius: 10px; border-left: 3px solid var(--cardio); }
+.cardio-box h4 { font-size: 0.8rem; color: var(--cardio); margin-bottom: 6px; }
+.cardio-box p { font-size: 0.78rem; color: var(--text); line-height: 1.6; }
+.cardio-box .metric { font-family: 'JetBrains Mono', monospace; color: var(--accent); }
+.cardio-phase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+.cpg-item { border-radius: 6px; padding: 8px 10px; font-size: 0.68rem; }
+.cpg-item.p1 { background: rgba(255,107,53,0.1); border: 1px solid rgba(255,107,53,0.2); }
+.cpg-item.p2 { background: rgba(0,199,255,0.1); border: 1px solid rgba(0,199,255,0.2); }
+.cpg-item.p3 { background: rgba(0,229,160,0.1); border: 1px solid rgba(0,229,160,0.2); }
+.cpg-title { font-weight: 700; margin-bottom: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.64rem; }
+.p1 .cpg-title { color: var(--phase1); }
+.p2 .cpg-title { color: var(--accent2); }
+.p3 .cpg-title { color: var(--accent); }
+.cpg-detail { color: var(--muted); line-height: 1.5; }
+
+/* RECOVERY GRID */
+.recovery-grid { margin-top: 30px; padding: 20px; background: var(--surface); border-radius: 14px; border: 1px solid var(--border); }
+.recovery-grid h3 { font-size: 0.9rem; margin-bottom: 14px; color: var(--accent2); }
+.recovery-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+.recovery-table th { color: var(--muted); font-weight: 500; padding: 6px 10px; text-align: center; border-bottom: 1px solid var(--border); font-size: 0.68rem; }
+.recovery-table td { padding: 6px 10px; text-align: center; border-bottom: 1px solid rgba(42,48,64,0.3); }
+.recovery-table .muscle-name { text-align: left; font-weight: 600; color: var(--text); }
+.dot-train { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--accent3); }
+.dot-rest { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--surface3); border: 1px solid var(--border); }
+.dot-cardio { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--cardio); opacity: 0.5; }
+
+/* CHECKPOINTS */
+.checkpoints { margin-top: 30px; background: var(--surface); border-radius: 14px; border: 1px solid var(--border); padding: 22px 24px; }
+.checkpoints h3 { font-size: 0.9rem; color: var(--yellow); margin-bottom: 18px; }
+.checkpoint-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.cp-item { background: var(--surface2); border-radius: 10px; padding: 14px; border: 1px solid var(--border); }
+.cp-day { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--muted); margin-bottom: 4px; }
+.cp-weight { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--accent); margin-bottom: 6px; }
+.cp-tasks { font-size: 0.68rem; color: var(--muted); line-height: 1.7; }
+.cp-tasks li { list-style: none; padding-left: 12px; position: relative; }
+.cp-tasks li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); font-size: 0.6rem; top: 2px; }
+
+/* FOOTER NOTES */
+.footer-notes { margin-top: 30px; padding: 20px; background: var(--surface); border-radius: 14px; border: 1px solid var(--border); }
+.footer-notes h3 { font-size: 0.9rem; margin-bottom: 12px; color: var(--accent); }
+.footer-notes ul { list-style: none; padding: 0; }
+.footer-notes li { font-size: 0.78rem; color: var(--muted); padding: 5px 0; padding-left: 16px; position: relative; border-bottom: 1px solid rgba(42,48,64,0.4); }
+.footer-notes li:last-child { border-bottom: none; }
+.footer-notes li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); }
+
+@media (max-width: 640px) {
+  .overview { grid-template-columns: repeat(4, 1fr); }
+  .phase-cards, .phase-mod-bar, .fasting-box { grid-template-columns: 1fr; }
+  .checkpoint-grid { grid-template-columns: repeat(2, 1fr); }
+  .milestones { grid-template-columns: repeat(4, 1fr); }
+  .header h1 { font-size: 2rem; }
+  .ex-table td, .ex-table th { padding: 8px 12px; }
+  .cardio-phase-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HEADER -->
+<div class="header">
+  <h1>180 DAY SHRED PLAN</h1>
+  <div class="sub">竹東全民運動中心 · BH 器材 · 減脂增肌 · 精壯塑形</div>
+  <div class="profile">
+    <span class="tag warn">START 85kg → END 70kg</span>
+    <span class="tag info">180 DAYS · 3 PHASES</span>
+    <span class="tag">07:00 – 08:00</span>
+    <span class="tag">6 DAYS / WEEK</span>
+    <span class="tag">168 間歇性斷食</span>
+  </div>
+</div>
+
+<!-- ROADMAP -->
+<div class="roadmap">
+  <div class="roadmap-title">📅 180 天三階段訓練藍圖</div>
+  <div class="roadmap-track">
+    <div class="roadmap-seg seg1"></div><div class="roadmap-seg seg1"></div>
+    <div class="roadmap-seg seg2"></div><div class="roadmap-seg seg2"></div>
+    <div class="roadmap-seg seg3"></div><div class="roadmap-seg seg3"></div>
+  </div>
+  <div class="phase-cards">
+    <div class="phase-card p1">
+      <div class="phase-label">PHASE 1 · 燃脂衝刺</div>
+      <div class="phase-days">Day 1–60 ／ Week 1–8</div>
+      <div class="phase-detail">以燃脂為主，建立訓練習慣
+        <span>· 高次數低重量（12–20 次）</span>
+        <span>· 短休息（45–60 秒）</span>
+        <span>· 有氧：每次 20 分鐘</span>
+        <span>· 168 斷食嚴格執行</span>
+      </div>
+      <div class="phase-target">目標：85kg → 80kg（-5kg）</div>
+    </div>
+    <div class="phase-card p2">
+      <div class="phase-label">PHASE 2 · 增肌重塑</div>
+      <div class="phase-days">Day 61–120 ／ Week 9–17</div>
+      <div class="phase-detail">增肌為主，持續減脂
+        <span>· 中等次數（8–12 次）</span>
+        <span>· 標準休息（60–90 秒）</span>
+        <span>· 有氧：每次 15 分鐘</span>
+        <span>· 每週漸進加重（+2.5kg）</span>
+      </div>
+      <div class="phase-target">目標：80kg → 75kg（-5kg）</div>
+    </div>
+    <div class="phase-card p3">
+      <div class="phase-label">PHASE 3 · 精實塑形</div>
+      <div class="phase-days">Day 121–180 ／ Week 18–26</div>
+      <div class="phase-detail">最大化肌肉線條，衝刺終點
+        <span>· 低次數高重量（6–10 次）</span>
+        <span>· 加入超級組、降重組</span>
+        <span>· 有氧：HIIT 取代穩態</span>
+        <span>· 碳水循環（訓練日增碳）</span>
+      </div>
+      <div class="phase-target">目標：75kg → 70kg（-5kg）</div>
+    </div>
+  </div>
+</div>
+
+<!-- MILESTONES -->
+<div class="milestones">
+  <div class="milestone-item"><div class="milestone-day">Day 0</div><div class="milestone-kg" style="color:var(--phase1)">85<span style="font-size:0.7rem;color:var(--muted)">kg</span></div><div class="milestone-label">起點</div></div>
+  <div class="milestone-item"><div class="milestone-day">Day 30</div><div class="milestone-kg" style="color:var(--phase1)">82.5<span style="font-size:0.7rem;color:var(--muted)">kg</span></div><div class="milestone-label">第1月</div></div>
+  <div class="milestone-item"><div class="milestone-day">Day 60</div><div class="milestone-kg" style="color:var(--yellow)">80<span style="font-size:0.7rem;color:var(--muted)">kg</span></div><div class="milestone-label">P1 完成</div></div>
+  <div class="milestone-item"><div class="milestone-day">Day 90</div><div class="milestone-kg" style="color:var(--accent2)">77.5<span style="font-size:0.7rem;color:var(--muted)">kg</span></div><div class="milestone-label">第3月</div></div>
+  <div class="milestone-item"><div class="milestone-day">Day 120</div><div class="milestone-kg" style="color:var(--accent2)">75<span style="font-size:0.7rem;color:var(--muted)">kg</span></div><div class="milestone-label">P2 完成</div></div>
+  <div class="milestone-item"><div class="milestone-day">Day 150</div><div class="milestone-kg" style="color:var(--accent)">72.5<span style="font-size:0.7rem;color:var(--muted)">kg</span></div><div class="milestone-label">第5月</div></div>
+  <div class="milestone-item"><div class="milestone-day">Day 180</div><div class="milestone-kg" style="color:var(--accent)">70<span style="font-size:0.7rem;color:var(--muted)">kg</span></div><div class="milestone-label">🎯 達標</div></div>
+</div>
+
+<!-- 168 FASTING -->
+<div class="fasting-box">
+  <div class="fasting-left">
+    <h3>⏰ 168 間歇性斷食 · 每日時間安排</h3>
+    <div class="fasting-timeline">
+      <div class="ft-fast">🚫 禁食 16H（20:00 → 12:00）</div>
+      <div class="ft-eat">✅ 進食 8H（12:00–20:00）</div>
+    </div>
+    <div class="fasting-note">訓練時間 07:00–08:00（空腹訓練）<br>· 訓練前：黑咖啡 / 電解質水 ✅<br>· 訓練後：BCAA 可選（不打破斷食）<br>· 12:00 開餐：高蛋白 + 複合碳水 + 蔬菜</div>
+  </div>
+  <div class="fasting-right">
+    <div class="fasting-rule"><strong>🌅 07:00 訓練（空腹）</strong>促進生長激素分泌，加速燃脂</div>
+    <div class="fasting-rule"><strong>🍱 12:00 第一餐（開餐）</strong>高蛋白 50g + 糙米/地瓜 + 大量蔬菜</div>
+    <div class="fasting-rule"><strong>🌙 19:30 最後一餐</strong>蛋白質為主，降低碳水，避免脂肪囤積</div>
+    <div class="fasting-rule"><strong>⚡ Phase 3 碳水循環</strong>訓練日多吃碳水，休息日嚴格低碳</div>
+  </div>
+</div>
+
+<!-- PHASE MOD BAR -->
+<div class="phase-mod-bar">
+  <div class="phase-mod p1">
+    <div class="phase-mod-title">🔥 Phase 1 調整</div>
+    <div class="phase-mod-row"><span class="phase-mod-key">次數範圍</span><span class="phase-mod-val">12–20 次</span></div>
+    <div class="phase-mod-row"><span class="phase-mod-key">組間休息</span><span class="phase-mod-val">45–60s</span></div>
+    <div class="phase-mod-row"><span class="phase-mod-key">收操有氧</span><span class="phase-mod-val">20 分鐘</span></div>
+    <div class="phase-mod-row"><span class="phase-mod-key">重量策略</span><span class="phase-mod-val">輕→感受度優先</span></div>
+  </div>
+  <div class="phase-mod p2">
+    <div class="phase-mod-title">💪 Phase 2 調整</div>
+    <div class="phase-mod-row"><span class="phase-mod-key">次數範圍</span><span class="phase-mod-val">8–12 次</span></div>
+    <div class="phase-mod-row"><span class="phase-mod-key">組間休息</span><span class="phase-mod-val">60–90s</span></div>
+    <div class="phase-mod-row"><span class="phase-mod-key">收操有氧</span><span class="phase-mod-val">15 分鐘</span></div>
+    <div class="phase-mod-row"><span class="phase-mod-key">重量策略</span><span class="phase-mod-val">每週漸進 +2.5kg</span></div>
+  </div>
+  <div class="phase-mod p3">
+    <div class="phase-mod-title">⚡ Phase 3 調整</div>
+    <div class="phase-mod-row"><span class="phase-mod-key">次數範圍</span><span class="phase-mod-val">6–10 次</span></div>
+    <div class="phase-mod-row"><span class="phase-mod-key">組間休息</span><span class="phase-mod-val">90–120s</span></div>
+    <div class="phase-mod-row"><span class="phase-mod-key">收操有氧</span><span class="phase-mod-val">HIIT 15 分鐘</span></div>
+    <div class="phase-mod-row"><span class="phase-mod-key">特殊技術</span><span class="phase-mod-val">超級組 / 降重組</span></div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<div class="overview">
+  <div class="ov-day"><div class="day-label" style="color:var(--push)">MON</div><span class="day-type type-push">推</span><div class="day-focus">胸·肩·三頭</div></div>
+  <div class="ov-day"><div class="day-label" style="color:var(--legs)">TUE</div><span class="day-type type-legs">腿 A</span><div class="day-focus">股四·臀·小腿</div></div>
+  <div class="ov-day"><div class="day-label" style="color:var(--pull)">WED</div><span class="day-type type-pull">拉</span><div class="day-focus">背·二頭</div></div>
+  <div class="ov-day"><div class="day-label" style="color:var(--cardio)">THU</div><span class="day-type type-cardio">有氧</span><div class="day-focus">燃脂+核心</div></div>
+  <div class="ov-day"><div class="day-label" style="color:var(--push)">FRI</div><span class="day-type type-push">推 B</span><div class="day-focus">胸·肩·三頭</div></div>
+  <div class="ov-day"><div class="day-label" style="color:var(--legs)">SAT</div><span class="day-type type-legs">腿B+拉</span><div class="day-focus">腿後·背·核心</div></div>
+  <div class="ov-day"><div class="day-label" style="color:var(--rest)">SUN</div><span class="day-type type-rest">REST</span><div class="day-focus">完全休息</div></div>
+</div>
+
+<!-- ========== MON ========== -->
+<div class="day-card open" id="day-mon">
+  <div class="day-header" onclick="toggleDay('day-mon')">
+    <div class="left">
+      <div class="day-num" style="color:var(--push)">MON</div>
+      <div class="day-info"><h3>上半身推 — 胸 · 肩 · 三頭</h3><div class="meta">⏱ 65–70min · 暖身5+重訓40+有氧20+伸展5</div></div>
+    </div>
+    <div class="toggle">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="phase-badges"><span class="pbadge-label">階段調整：</span><span class="pbadge p1">P1 45s休息·20min有氧</span><span class="pbadge p2">P2 90s休息·15min有氧</span><span class="pbadge p3">P3 超級組+降重組+HIIT</span></div>
+    <div class="cardio-box"><h4>🏃 暖身 · 5 分鐘</h4><p>跑步機快走 or 橢圓機，心率 <span class="metric">110–120 bpm</span></p></div>
+    <div class="section-label">💪 重量訓練</div>
+    <table class="ex-table">
+      <thead><tr><th>動作</th><th>P1 組×次</th><th>P2 組×次</th><th>P3 組×次</th><th>休息</th><th>備註</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="ex-name">坐姿胸推機</span><span class="garmin-name">Chest Press Machine</span><span class="target">胸大肌 · 前三角 · 三頭</span><a class="yt-link" href="https://www.youtube.com/results?search_query=chest+press+machine+proper+form+tutorial" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">4×15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">4×10–12</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">5×6–8</span></div></td>
+          <td class="rest-time">P1:45s<br>P2:90s<br>P3:120s</td>
+          <td class="note">椅背對齊乳頭線，慢放2秒。P3最後一組降重30%再推力竭</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">蝴蝶夾胸機</span><span class="garmin-name">Pec Deck</span><span class="target">胸大肌內側</span><a class="yt-link" href="https://www.youtube.com/results?search_query=pec+deck+fly+machine+proper+form+tutorial" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">3×15–20</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">3×12–15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">3×10</span></div></td>
+          <td class="rest-time">P1:45s<br>P2:60s<br>P3:90s</td>
+          <td class="note">頂峰收縮停 1–2 秒，感受胸中縫收緊</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">坐姿肩推機</span><span class="garmin-name">Shoulder Press Machine</span><span class="target">三角肌中束 · 前束</span><a class="yt-link" href="https://www.youtube.com/results?search_query=machine+shoulder+press+proper+form+tutorial" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">4×12–15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">4×10–12</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">4×8</span></div></td>
+          <td class="rest-time">P1:60s<br>P2:90s<br>P3:120s</td>
+          <td class="note">不聳肩，慢放 2–3 秒保護肩關節</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">機械側平舉</span><span class="garmin-name">Lateral Raise Machine</span><span class="target">三角肌中束</span><a class="yt-link" href="https://www.youtube.com/results?search_query=machine+lateral+raise+deltoid+tutorial+how+to" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">3×20</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">3×15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">4×12</span></div></td>
+          <td class="rest-time">P1:30s<br>P2:60s<br>P3:60s</td>
+          <td class="note">P3：與繩索面拉做超級組（不休息直接接）</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">繩索三頭下壓</span><span class="garmin-name">Cable Triceps Pushdown</span><span class="target">三頭肌外側頭</span><a class="yt-link" href="https://www.youtube.com/results?search_query=cable+rope+triceps+pushdown+proper+form+tutorial" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">3×15–20</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">3×12–15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">4×8–10</span></div></td>
+          <td class="rest-time">P1:45s<br>P2:60s<br>P3:90s</td>
+          <td class="note">手肘夾緊身體，全程不動，繩索配件</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="cardio-box" style="border-left-color:var(--accent3);margin-top:4px;">
+      <h4>🔥 收操有氧（依階段）</h4>
+      <div class="cardio-phase-grid">
+        <div class="cpg-item p1"><div class="cpg-title">P1 · 20min 穩態</div><div class="cpg-detail">跑步機 坡度4–6%<br>速度5.5–6.5 km/h<br>心率130–145 bpm</div></div>
+        <div class="cpg-item p2"><div class="cpg-title">P2 · 15min 穩態</div><div class="cpg-detail">跑步機 坡度3–5%<br>速度6.0–7.0 km/h<br>心率135–150 bpm</div></div>
+        <div class="cpg-item p3"><div class="cpg-title">P3 · 15min HIIT</div><div class="cpg-detail">30s衝刺8 km/h<br>60s快走5.5 km/h<br>×10組循環</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== TUE ========== -->
+<div class="day-card" id="day-tue">
+  <div class="day-header" onclick="toggleDay('day-tue')">
+    <div class="left">
+      <div class="day-num" style="color:var(--legs)">TUE</div>
+      <div class="day-info"><h3>下半身 A — 股四頭 · 臀 · 小腿</h3><div class="meta">⏱ 65–70min · 暖身5+重訓40+有氧20+伸展5</div></div>
+    </div>
+    <div class="toggle">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="phase-badges"><span class="pbadge-label">階段調整：</span><span class="pbadge p1">P1 高次數·橢圓20min</span><span class="pbadge p2">P2 漸進加重每週+2.5kg</span><span class="pbadge p3">P3 腿推+腿伸展超級組</span></div>
+    <div class="cardio-box"><h4>🏃 暖身 · 5 分鐘</h4><p>飛輪 / 橢圓機輕鬆踩，心率 <span class="metric">110–120 bpm</span></p></div>
+    <div class="section-label">💪 重量訓練</div>
+    <table class="ex-table">
+      <thead><tr><th>動作</th><th>P1 組×次</th><th>P2 組×次</th><th>P3 組×次</th><th>休息</th><th>備註</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="ex-name">腿推機</span><span class="garmin-name">Leg Press</span><span class="target">股四頭 · 臀大肌</span><a class="yt-link" href="https://www.youtube.com/results?search_query=leg+press+machine+proper+form+tutorial+foot+placement" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">4×15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">4×10–12</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">5×8</span></div></td>
+          <td class="rest-time">P1:60s<br>P2:90s<br>P3:120s</td>
+          <td class="note">腳位中間→股四；腳位高→臀為主。膝蓋不鎖死</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">腿伸展機</span><span class="garmin-name">Leg Extension</span><span class="target">股四頭肌（孤立）</span><a class="yt-link" href="https://www.youtube.com/results?search_query=leg+extension+machine+proper+form+tutorial" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">3×20</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">3×12–15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">4×10</span></div></td>
+          <td class="rest-time">P1:45s<br>P2:60s<br>P3:90s</td>
+          <td class="note">頂端停 1 秒，慢放 3 秒離心控制</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">史密斯深蹲</span><span class="garmin-name">Smith Machine Squat</span><span class="target">股四頭 · 臀 · 核心</span><a class="yt-link" href="https://www.youtube.com/results?search_query=smith+machine+squat+proper+form+tutorial+how+to" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">3×12</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">4×10</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">4×6–8</span></div></td>
+          <td class="rest-time">P1:60s<br>P2:90s<br>P3:120s</td>
+          <td class="note">蹲到大腿平行地面，核心全程收緊，腳略前置</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">坐姿小腿提踵機</span><span class="garmin-name">Seated Calf Raise</span><span class="target">腓腸肌 · 比目魚肌</span><a class="yt-link" href="https://www.youtube.com/results?search_query=seated+calf+raise+machine+proper+form+tutorial" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">4×25</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">4×15–20</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">4×12</span></div></td>
+          <td class="rest-time">P1:30s<br>P2:45s<br>P3:60s</td>
+          <td class="note">底部充分拉伸停 1 秒，頂部擠壓收縮</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">髖外展機</span><span class="garmin-name">Hip Abduction Machine</span><span class="target">臀中肌 · 外展肌群</span><a class="yt-link" href="https://www.youtube.com/results?search_query=hip+abduction+machine+proper+form+tutorial+glutes" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">3×20</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">3×15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">3×12</span></div></td>
+          <td class="rest-time">P1:30s<br>P2:60s<br>P3:60s</td>
+          <td class="note">改善膝蓋穩定性，預防膝內扣</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="cardio-box" style="border-left-color:var(--accent3);margin-top:4px;">
+      <h4>🔥 收操有氧（依階段）</h4>
+      <div class="cardio-phase-grid">
+        <div class="cpg-item p1"><div class="cpg-title">P1 · 20min 低衝擊</div><div class="cpg-detail">橢圓機 阻力5–7<br>心率130–140 bpm<br>保護膝蓋</div></div>
+        <div class="cpg-item p2"><div class="cpg-title">P2 · 15min</div><div class="cpg-detail">橢圓機 阻力6–8<br>心率135–145 bpm</div></div>
+        <div class="cpg-item p3"><div class="cpg-title">P3 · 15min HIIT</div><div class="cpg-detail">飛輪30s全力<br>60s慢踩 ×10組</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== WED ========== -->
+<div class="day-card" id="day-wed">
+  <div class="day-header" onclick="toggleDay('day-wed')">
+    <div class="left">
+      <div class="day-num" style="color:var(--pull)">WED</div>
+      <div class="day-info"><h3>上半身拉 — 背 · 二頭</h3><div class="meta">⏱ 65–70min · 暖身5+重訓40+有氧20+伸展5</div></div>
+    </div>
+    <div class="toggle">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="phase-badges"><span class="pbadge-label">階段調整：</span><span class="pbadge p1">P1 高次數感受度</span><span class="pbadge p2">P2 下拉主動加重</span><span class="pbadge p3">P3 划船+後飛鳥超級組</span></div>
+    <div class="cardio-box"><h4>🏃 暖身 · 5 分鐘</h4><p>划船機輕鬆划，心率 <span class="metric">110–120 bpm</span>，活化肩胛和背肌</p></div>
+    <div class="section-label">💪 重量訓練</div>
+    <table class="ex-table">
+      <thead><tr><th>動作</th><th>P1 組×次</th><th>P2 組×次</th><th>P3 組×次</th><th>休息</th><th>備註</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="ex-name">滑輪下拉（寬握）</span><span class="garmin-name">Wide-grip Lat Pulldown</span><span class="target">闊背肌 · 大圓肌</span><a class="yt-link" href="https://www.youtube.com/results?search_query=wide+grip+lat+pulldown+proper+form+tutorial+how+to" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">4×15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">4×10–12</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">5×8</span></div></td>
+          <td class="rest-time">P1:60s<br>P2:90s<br>P3:120s</td>
+          <td class="note">拉到鎖骨，肩胛下沉內收，用肘帶動不用手</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">坐姿划船機</span><span class="garmin-name">Seated Cable Row</span><span class="target">中背 · 菱形肌 · 後三角</span><a class="yt-link" href="https://www.youtube.com/results?search_query=seated+cable+row+proper+form+tutorial+back" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">4×15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">4×10–12</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">4×8</span></div></td>
+          <td class="rest-time">P1:60s<br>P2:90s<br>P3:120s</td>
+          <td class="note">挺胸夾背，肘部拉過身體，感受中背發力</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">窄握下拉（V把）</span><span class="garmin-name">Close-grip Lat Pulldown</span><span class="target">闊背肌下部 · 二頭</span><a class="yt-link" href="https://www.youtube.com/results?search_query=close+grip+lat+pulldown+v+bar+tutorial+how+to" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">3×15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">3×12</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">3×10</span></div></td>
+          <td class="rest-time">P1:45s<br>P2:60s<br>P3:90s</td>
+          <td class="note">V 型握把，拉到腹部，強調闊背下部</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">機械後飛鳥</span><span class="garmin-name">Reverse Fly Machine</span><span class="target">後三角 · 菱形肌</span><a class="yt-link" href="https://www.youtube.com/results?search_query=reverse+fly+machine+rear+delt+proper+form+tutorial" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">3×20</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">3×15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">3×12</span></div></td>
+          <td class="rest-time">P1:30s<br>P2:60s<br>P3:60s</td>
+          <td class="note">蝴蝶機反向操作，P3 與划船做超級組</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">繩索彎舉</span><span class="garmin-name">Cable Curl</span><span class="target">二頭肌</span><a class="yt-link" href="https://www.youtube.com/results?search_query=cable+curl+low+pulley+biceps+proper+form+tutorial" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">3×15–20</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">3×12–15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">3×8–10</span></div></td>
+          <td class="rest-time">P1:45s<br>P2:60s<br>P3:90s</td>
+          <td class="note">低位繩索，手肘固定，慢速離心（3秒放）</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="cardio-box" style="border-left-color:var(--accent3);margin-top:4px;">
+      <h4>🔥 收操有氧（依階段）</h4>
+      <div class="cardio-phase-grid">
+        <div class="cpg-item p1"><div class="cpg-title">P1 · 20min 穩態</div><div class="cpg-detail">跑步機 6.0–7.0 km/h<br>心率130–145 bpm</div></div>
+        <div class="cpg-item p2"><div class="cpg-title">P2 · 15min 穩態</div><div class="cpg-detail">跑步機 6.5–7.5 km/h<br>心率135–150 bpm</div></div>
+        <div class="cpg-item p3"><div class="cpg-title">P3 · 15min HIIT</div><div class="cpg-detail">30s衝/60s走<br>×10組，峰值170+</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== THU ========== -->
+<div class="day-card" id="day-thu">
+  <div class="day-header" onclick="toggleDay('day-thu')">
+    <div class="left">
+      <div class="day-num" style="color:var(--cardio)">THU</div>
+      <div class="day-info"><h3>有氧燃脂 + 核心強化</h3><div class="meta">⏱ 60min · 有氧35min + 核心20min + 伸展5min</div></div>
+    </div>
+    <div class="toggle">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="phase-badges"><span class="pbadge-label">階段調整：</span><span class="pbadge p1">P1 穩態35min</span><span class="pbadge p2">P2 穩態25+HIIT10</span><span class="pbadge p3">P3 純HIIT30min</span></div>
+    <div class="cardio-box">
+      <h4>🏃 主有氧訓練（依階段）</h4>
+      <div class="cardio-phase-grid">
+        <div class="cpg-item p1"><div class="cpg-title">P1 穩態燃脂 35min</div><div class="cpg-detail">快走5min→慢跑25min<br>（140–155 bpm）<br>→快走5min收操</div></div>
+        <div class="cpg-item p2"><div class="cpg-title">P2 混合有氧 35min</div><div class="cpg-detail">慢跑15min（140–150）<br>HIIT 10min（30s衝60s走）<br>橢圓10min（135–145）</div></div>
+        <div class="cpg-item p3"><div class="cpg-title">P3 純 HIIT 30min</div><div class="cpg-detail">飛輪20s全力+40s慢踩<br>×15組循環<br>峰值心率170+ bpm</div></div>
+      </div>
+    </div>
+    <div class="section-label">🧘 核心強化訓練</div>
+    <table class="ex-table">
+      <thead><tr><th>動作</th><th>P1 組×次</th><th>P2 組×次</th><th>P3 組×次</th><th>休息</th><th>備註</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="ex-name">捲腹機</span><span class="garmin-name">Ab Crunch Machine</span><span class="target">腹直肌上段</span><a class="yt-link" href="https://www.youtube.com/results?search_query=ab+crunch+machine+weighted+proper+form+tutorial" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">3×20</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">3×15–20</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">4×15</span></div></td>
+          <td class="rest-time">45s</td>
+          <td class="note">BH 腹肌訓練機，加重量後保持控制</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">懸垂抬腿</span><span class="garmin-name">Hanging Leg Raise</span><span class="target">腹直肌下段 · 髂腰肌</span><a class="yt-link" href="https://www.youtube.com/results?search_query=hanging+leg+raise+abs+proper+form+tutorial+how+to" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">3×12</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">3×12–15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">4×15</span></div></td>
+          <td class="rest-time">45s</td>
+          <td class="note">羅馬椅或引體向上架，腿伸直難度更高</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">繩索轉體（斜砍）</span><span class="garmin-name">Cable Woodchop</span><span class="target">腹斜肌 · 核心旋轉</span><a class="yt-link" href="https://www.youtube.com/results?search_query=cable+woodchop+oblique+rotation+tutorial+how+to" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">3×12/側</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">3×12/側</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">4×15/側</span></div></td>
+          <td class="rest-time">45s</td>
+          <td class="note">Cable Machine 高位往斜下拉，轉體充分</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">平板支撐</span><span class="garmin-name">Plank</span><span class="target">核心整體穩定</span><a class="yt-link" href="https://www.youtube.com/results?search_query=plank+proper+form+tutorial+core+how+to" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">3×45s</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">3×60s</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">3×75s</span></div></td>
+          <td class="rest-time">30s</td>
+          <td class="note">P3：可換成登山者式（Mountain Climbers）</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ========== FRI ========== -->
+<div class="day-card" id="day-fri">
+  <div class="day-header" onclick="toggleDay('day-fri')">
+    <div class="left">
+      <div class="day-num" style="color:var(--push)">FRI</div>
+      <div class="day-info"><h3>上半身推（B 組）— 上胸 · 肩後束 · 三頭</h3><div class="meta">⏱ 65–70min · 暖身5+重訓40+有氧20+伸展5</div></div>
+    </div>
+    <div class="toggle">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="phase-badges"><span class="pbadge-label">階段調整：</span><span class="pbadge p1">P1 高次數上胸感受</span><span class="pbadge p2">P2 上斜胸推加重優先</span><span class="pbadge p3">P3 三頭超級組</span></div>
+    <div class="cardio-box"><h4>🏃 暖身 · 5 分鐘</h4><p>橢圓機輕鬆踩，心率 <span class="metric">110–120 bpm</span>，搭配肩關節環繞熱身</p></div>
+    <div class="section-label">💪 重量訓練</div>
+    <table class="ex-table">
+      <thead><tr><th>動作</th><th>P1 組×次</th><th>P2 組×次</th><th>P3 組×次</th><th>休息</th><th>備註</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="ex-name">上斜胸推機</span><span class="garmin-name">Incline Chest Press Machine</span><span class="target">上胸 · 前三角</span><a class="yt-link" href="https://www.youtube.com/results?search_query=incline+chest+press+machine+upper+chest+tutorial" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">4×15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">4×10–12</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">5×6–8</span></div></td>
+          <td class="rest-time">P1:60s<br>P2:90s<br>P3:120s</td>
+          <td class="note">與週一平推互補，打造完整胸肌輪廓</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Cable 夾胸（低位上拉）</span><span class="garmin-name">Cable Crossover Low-to-High</span><span class="target">胸肌上部 · 內側</span><a class="yt-link" href="https://www.youtube.com/results?search_query=cable+crossover+low+to+high+upper+chest+tutorial" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">3×15–20</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">3×12–15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">3×10–12</span></div></td>
+          <td class="rest-time">P1:45s<br>P2:60s<br>P3:90s</td>
+          <td class="note">低位往上拉，頂點雙手交叉，練上胸線條</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">坐姿肩推機</span><span class="garmin-name">Shoulder Press Machine</span><span class="target">三角肌整體</span><a class="yt-link" href="https://www.youtube.com/results?search_query=machine+shoulder+press+proper+form+tutorial" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">3×15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">3×10–12</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">4×8</span></div></td>
+          <td class="rest-time">P1:60s<br>P2:90s<br>P3:120s</td>
+          <td class="note">比週一少1組，搭配不同重量挑戰</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">繩索面拉（Face Pull）</span><span class="garmin-name">Cable Face Pull</span><span class="target">後三角 · 外旋肌群 · 菱形肌</span><a class="yt-link" href="https://www.youtube.com/results?search_query=cable+face+pull+rear+delt+rotator+cuff+tutorial" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">3×20</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">3×15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">4×15</span></div></td>
+          <td class="rest-time">30–45s</td>
+          <td class="note">⭐ 每天都要做！預防肩傷，修正圓肩姿勢</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">繩索三頭下壓（反握）</span><span class="garmin-name">Reverse Grip Triceps Pushdown</span><span class="target">三頭肌長頭</span><a class="yt-link" href="https://www.youtube.com/results?search_query=reverse+grip+cable+triceps+pushdown+tutorial" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">3×15–20</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">3×12–15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">4×8–10</span></div></td>
+          <td class="rest-time">P1:45s<br>P2:60s<br>P3:90s</td>
+          <td class="note">反握（棒式把手）→ 三頭長頭更多，手臂更粗</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="cardio-box" style="border-left-color:var(--accent3);margin-top:4px;">
+      <h4>🔥 收操有氧（依階段）</h4>
+      <div class="cardio-phase-grid">
+        <div class="cpg-item p1"><div class="cpg-title">P1 · 20min 穩態</div><div class="cpg-detail">飛輪 阻力4–6<br>心率130–140 bpm</div></div>
+        <div class="cpg-item p2"><div class="cpg-title">P2 · 15min 穩態</div><div class="cpg-detail">飛輪 阻力6–8<br>心率135–150 bpm</div></div>
+        <div class="cpg-item p3"><div class="cpg-title">P3 · 15min HIIT</div><div class="cpg-detail">飛輪20s全力+40s慢踩<br>×15組 峰值175 bpm</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SAT ========== -->
+<div class="day-card" id="day-sat">
+  <div class="day-header" onclick="toggleDay('day-sat')">
+    <div class="left">
+      <div class="day-num" style="color:var(--legs)">SAT</div>
+      <div class="day-info"><h3>下半身 B — 腿後 · 臀 + 背補強 + 核心</h3><div class="meta">⏱ 65–70min · 暖身5+重訓40+有氧15–20+伸展5</div></div>
+    </div>
+    <div class="toggle">▼</div>
+  </div>
+  <div class="day-body">
+    <div class="phase-badges"><span class="pbadge-label">階段調整：</span><span class="pbadge p1">P1 腿彎舉高次數</span><span class="pbadge p2">P2 腿彎舉漸進加重</span><span class="pbadge p3">P3 腿彎舉+髖內收超級組</span></div>
+    <div class="cardio-box"><h4>🏃 暖身 · 5 分鐘</h4><p>跑步機快走，心率 <span class="metric">110–120 bpm</span>，啟動腿後肌群和臀肌</p></div>
+    <div class="section-label">💪 重量訓練</div>
+    <table class="ex-table">
+      <thead><tr><th>動作</th><th>P1 組×次</th><th>P2 組×次</th><th>P3 組×次</th><th>休息</th><th>備註</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="ex-name">坐姿腿彎舉機</span><span class="garmin-name">Seated Leg Curl</span><span class="target">腿後肌群（膕繩肌）</span><a class="yt-link" href="https://www.youtube.com/results?search_query=seated+leg+curl+machine+hamstring+proper+form+tutorial" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">4×15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">4×10–12</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">5×8</span></div></td>
+          <td class="rest-time">P1:60s<br>P2:90s<br>P3:120s</td>
+          <td class="note">週二練股四，週六換腿後，平衡發展</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">腿推機（高腳位臀推）</span><span class="garmin-name">Leg Press High Foot</span><span class="target">臀大肌 · 腿後肌</span><a class="yt-link" href="https://www.youtube.com/results?search_query=leg+press+high+foot+placement+glutes+hamstrings+tutorial" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">3×15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">3×12</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">4×10</span></div></td>
+          <td class="rest-time">P1:60s<br>P2:90s<br>P3:120s</td>
+          <td class="note">腳踏板上方，與週二腳位不同，強調臀腿後</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">髖內收機</span><span class="garmin-name">Hip Adduction Machine</span><span class="target">大腿內側肌群</span><a class="yt-link" href="https://www.youtube.com/results?search_query=hip+adduction+machine+inner+thigh+tutorial+how+to" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">3×20</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">3×15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">3×12</span></div></td>
+          <td class="rest-time">P1:30s<br>P2:60s<br>P3:60s</td>
+          <td class="note">搭配週二外展機，完整訓練大腿內外側</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">滑輪下拉（窄握）</span><span class="garmin-name">Close-grip Lat Pulldown</span><span class="target">闊背肌 · 二頭</span><a class="yt-link" href="https://www.youtube.com/results?search_query=close+grip+lat+pulldown+tutorial+proper+form" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">3×15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">3×12</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">3×10</span></div></td>
+          <td class="rest-time">P1:45s<br>P2:60s<br>P3:90s</td>
+          <td class="note">背部補強，比週三強度低，不用太重</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">捲腹機</span><span class="garmin-name">Ab Crunch Machine</span><span class="target">腹直肌</span><a class="yt-link" href="https://www.youtube.com/results?search_query=ab+crunch+machine+weighted+tutorial+how+to" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">3×20</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">3×15</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">3×15</span></div></td>
+          <td class="rest-time">45s</td>
+          <td class="note">週尾核心強化，加重量做</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">平板支撐</span><span class="garmin-name">Plank</span><span class="target">核心穩定</span><a class="yt-link" href="https://www.youtube.com/results?search_query=plank+proper+form+core+tutorial+how+to" target="_blank">▶ YouTube 示範</a></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc1">2×45s</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc2">2×60s</span></div></td>
+          <td class="sets-reps"><div class="phase-cells"><span class="phase-cell pc3">2×75s</span></div></td>
+          <td class="rest-time">30s</td>
+          <td class="note">一週最後一個動作，全力以赴</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="cardio-box" style="border-left-color:var(--accent3);margin-top:4px;">
+      <h4>🔥 收操有氧（依階段）</h4>
+      <div class="cardio-phase-grid">
+        <div class="cpg-item p1"><div class="cpg-title">P1 · 20min 穩態</div><div class="cpg-detail">橢圓機 阻力4–6<br>心率125–140 bpm<br>輕鬆結束本週</div></div>
+        <div class="cpg-item p2"><div class="cpg-title">P2 · 15min 穩態</div><div class="cpg-detail">橢圓/跑步機<br>心率130–145 bpm</div></div>
+        <div class="cpg-item p3"><div class="cpg-title">P3 · 15min 輕鬆</div><div class="cpg-detail">橢圓機穩態（週六恢復）<br>心率130–140 bpm</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RECOVERY GRID -->
+<div class="recovery-grid">
+  <h3>📊 肌群訓練 & 恢復一覽</h3>
+  <table class="recovery-table">
+    <thead><tr><th>肌群</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th><th>SUN</th></tr></thead>
+    <tbody>
+      <tr><td class="muscle-name">胸（上/中）</td><td><span class="dot-train"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-train"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td></tr>
+      <tr><td class="muscle-name">肩（前/中/後）</td><td><span class="dot-train"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-train"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td></tr>
+      <tr><td class="muscle-name">三頭肌</td><td><span class="dot-train"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-train"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td></tr>
+      <tr><td class="muscle-name">背（闊背/菱形）</td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-train"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-train"></span></td><td><span class="dot-rest"></span></td></tr>
+      <tr><td class="muscle-name">二頭肌</td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-train"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td></tr>
+      <tr><td class="muscle-name">股四頭</td><td><span class="dot-rest"></span></td><td><span class="dot-train"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td></tr>
+      <tr><td class="muscle-name">腿後/臀大肌</td><td><span class="dot-rest"></span></td><td><span class="dot-train"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-train"></span></td><td><span class="dot-rest"></span></td></tr>
+      <tr><td class="muscle-name">小腿</td><td><span class="dot-rest"></span></td><td><span class="dot-train"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td></tr>
+      <tr><td class="muscle-name">核心</td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-train"></span></td><td><span class="dot-rest"></span></td><td><span class="dot-train"></span></td><td><span class="dot-rest"></span></td></tr>
+      <tr><td class="muscle-name">有氧</td><td><span class="dot-cardio"></span></td><td><span class="dot-cardio"></span></td><td><span class="dot-cardio"></span></td><td><span class="dot-train"></span></td><td><span class="dot-cardio"></span></td><td><span class="dot-cardio"></span></td><td><span class="dot-rest"></span></td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:0.68rem;color:var(--muted);margin-top:10px;">
+    <span class="dot-train" style="vertical-align:middle;"></span> 主要訓練 &nbsp;
+    <span class="dot-cardio" style="vertical-align:middle;"></span> 有氧（P1:20min / P2:15min / P3:HIIT）&nbsp;
+    <span class="dot-rest" style="vertical-align:middle;"></span> 休息恢復
+  </p>
+</div>
+
+<!-- CHECKPOINTS -->
+<div class="checkpoints">
+  <h3>🎯 30天里程碑 · 進度檢核點</h3>
+  <div class="checkpoint-grid">
+    <div class="cp-item"><div class="cp-day">Day 30 · 第1月</div><div class="cp-weight">82.5kg</div><ul class="cp-tasks"><li>體重降 2–2.5kg</li><li>168 斷食已習慣</li><li>每個動作找到感受度</li><li>有氧後不喘、心率穩定</li><li>拍照對比（前/側/後）</li></ul></div>
+    <div class="cp-item"><div class="cp-day">Day 60 · P1 完成</div><div class="cp-weight">80kg</div><ul class="cp-tasks"><li>體重降 5kg 達標</li><li>進入 Phase 2 增肌模式</li><li>全部動作重量提升 20%</li><li>有氧縮短至 15min</li><li>體態改善明顯可見</li></ul></div>
+    <div class="cp-item"><div class="cp-day">Day 90 · 第3月</div><div class="cp-weight">77.5kg</div><ul class="cp-tasks"><li>肌肉線條開始顯現</li><li>漸進超負荷穩定進行</li><li>開始感受腹肌輪廓</li><li>體脂率目標 &lt;20%</li><li>調整飲食蛋白質攝取</li></ul></div>
+    <div class="cp-item"><div class="cp-day">Day 120 · P2 完成</div><div class="cp-weight">75kg</div><ul class="cp-tasks"><li>體重降 10kg 達標</li><li>進入 Phase 3 塑形</li><li>加入超級組、降重組</li><li>有氧改為全 HIIT</li><li>碳水循環策略啟動</li></ul></div>
+    <div class="cp-item"><div class="cp-day">Day 150 · 第5月</div><div class="cp-weight">72.5kg</div><ul class="cp-tasks"><li>腹肌可見（體脂&lt;18%）</li><li>全身肌肉線條清晰</li><li>最大力量全面提升</li><li>確保睡眠與恢復充足</li><li>訓練強度最高峰期</li></ul></div>
+    <div class="cp-item"><div class="cp-day">Day 180 · 任務完成</div><div class="cp-weight" style="color:var(--accent)">70kg 🎯</div><ul class="cp-tasks"><li>達標 70kg 精壯體態</li><li>體脂目標 15–17%</li><li>六組腹肌清晰可見</li><li>前後對比照大片拍攝</li><li>規劃下一個 90 天</li></ul></div>
+  </div>
+</div>
+
+<!-- FOOTER NOTES -->
+<div class="footer-notes">
+  <h3>📝 重要執行原則</h3>
+  <ul>
+    <li><strong>漸進式超負荷（最重要）：</strong>當某重量能做到次數上限且 RPE ≤ 7 時，下次加 2.5–5kg。不加重 = 沒有進步</li>
+    <li><strong>空腹訓練：</strong>07:00 前喝 250ml 水 + 黑咖啡。若頭暈立即停止，補充電解質水</li>
+    <li><strong>Phase 3 超級組：</strong>兩個動作之間不休息，完成後休息 90–120 秒算一組</li>
+    <li><strong>Phase 3 降重組：</strong>用主要重量做到力竭後，立即減輕 30% 重量再做到力竭</li>
+    <li><strong>Garmin 操作：</strong>Garmin Connect 建立課表 → 同步手錶 → Strength 活動模式 → 選課表</li>
+    <li><strong>每週有氧總量：</strong>P1:135min / P2:110min / P3:HIIT×105min</li>
+    <li><strong>體重停滯期：</strong>連續 2 週不降，確認每日赤字 -500 kcal，加飯後散步 20 分鐘</li>
+    <li><strong>睡眠是隱藏武器：</strong>每晚 7–8 小時，睡不足皮質醇升高直接阻礙燃脂增肌</li>
+  </ul>
+</div>
+
+<div style="text-align:center;padding:30px 0;font-size:0.7rem;color:var(--muted);">
+  180 天精壯計畫 · 85kg → 70kg · 三階段訓練系統 · 2026.03 · 每個動作點 ▶ YouTube 示範查看正確姿勢
+</div>
+
+</div>
+<script>
+function toggleDay(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('open');
+}
+(function(){
+  const start = new Date('2026-03-29');
+  const today = new Date();
+  const diff = Math.floor((today - start) / (1000*60*60*24)) + 1;
+  if(diff > 0 && diff <= 180){
+    const color = diff <= 60 ? '#ff6b35' : diff <= 120 ? '#00c7ff' : '#00e5a0';
+    const phase = diff <= 60 ? 'Phase 1 · 燃脂衝刺' : diff <= 120 ? 'Phase 2 · 增肌重塑' : 'Phase 3 · 精實塑形';
+    const el = document.createElement('div');
+    el.style.cssText = `position:fixed;bottom:20px;right:20px;background:#1a1e25;border:1px solid ${color};border-radius:10px;padding:12px 16px;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:${color};z-index:999;cursor:default;`;
+    el.innerHTML = `📅 Day ${diff} / 180<br><span style="color:#6b7a8d;font-size:0.65rem;">${phase}</span>`;
+    document.body.appendChild(el);
+  }
+})();
+</script>
+</body>
+</html>
